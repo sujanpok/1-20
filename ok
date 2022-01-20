@@ -1,0 +1,98 @@
+Gretting.java
+
+
+
+package com.example.demo;
+
+public class Greeting {
+
+  private long id;
+  private String content;
+  
+
+  public long getId() {
+    return id;
+  }
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  public String getContent() {
+    return content;
+  }
+  public void setContent(String content) {
+    this.content = content;
+  }
+
+}
+
+GettingController.java
+
+package com.example.demo;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+@Controller
+public class GreetingController {
+
+  @GetMapping("/greeting")
+  public String greetingForm(Model model) {
+    model.addAttribute("greeting", new Greeting());
+    return "greeting";
+  }
+
+  @PostMapping("/greeting")
+  public String greetingSubmit(@ModelAttribute Greeting greeting) {
+    return "result";
+  }
+
+}
+
+
+
+gretting.html
+
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>Form</h1>
+    <form action="#" th:action="@{/greeting}" th:object="${greeting}" method="post">
+      <p>Id: <input type="text" th:field="*{id}" /></p>
+      <p>Message: <input type="text" th:field="*{content}" /></p>
+      <hr>
+      
+      
+      <hr>
+      
+      <p><input type="submit" value="Submit" />
+    </form>
+</body>
+</html>
+
+result.html
+
+
+
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>Result</h1>
+    <p th:text="'id: ' + ${greeting.id}" />
+    <p th:text="'content: ' + ${greeting.content}" />
+    <a href="/greeting">Submit another message</a>
+</body>
+</html>
+
+
